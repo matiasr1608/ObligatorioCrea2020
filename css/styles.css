@@ -1,3 +1,7 @@
+
+.checked {
+  color: orange;
+}
 .jumbotron, .card-body, .container, .site-header{
     font-family: 'Raleway', serif !important;
 }
