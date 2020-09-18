@@ -15,26 +15,28 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (resultObj.status === "ok") {
             product = resultObj.data
             relatedProducts= product.relatedProducts
-
             showProduct(product)
-            
+            console.log(relatedProducts)
         }
-
+       getJSONData(PRODUCTS_URL).then(function(resultObj){
+        if(resultObj.status === "ok"){
+            products= resultObj.data
+            console.log(relatedProducts)
+            showRelatedProducts(relatedProducts, products)  
+        }
+    })
     });
+    
+    console.log(relatedProducts)
+    
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             comments = resultObj.data
             showComments(comments)
-            console.log(comments)
         }
 
     });
-    getJSONData(PRODUCTS_URL).then(function(resultObj){
-        if(resultObj.status === "ok"){
-            products= resultObj.data
-            showRelatedProducts(relatedProducts, products)
-        }
-    })
+    
 
 
     function showProduct(product) {
