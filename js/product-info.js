@@ -2,6 +2,7 @@
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 var product = [];
+var relatedProducts =[]
 const productName = document.getElementById("productName")
 const productPrice = document.getElementById("productPrice")
 const productDescription = document.getElementById("productDescription")
@@ -13,7 +14,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCT_INFO_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             product = resultObj.data
+            relatedProducts= product.relatedProducts
+
             showProduct(product)
+            
         }
 
     });
@@ -25,6 +29,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
 
     });
+    getJSONData(PRODUCTS_URL).then(function(resultObj){
+        if(resultObj.status === "ok"){
+            products= resultObj.data
+            showRelatedProducts(relatedProducts, products)
+        }
+    })
 
 
     function showProduct(product) {
@@ -34,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         productCategory.innerHTML = product.category
         productSoldCount.innerHTML = product.soldCount
     }
-    // 
+
 
     function makeRaiting(starsOn) {
         let raiting = ""
@@ -82,6 +92,35 @@ document.addEventListener("DOMContentLoaded", function (e) {
             document.getElementById("comment-list-container").innerHTML = htmlContentToAppend;
         }
     }
+    
+    function showRelatedProducts(RelatedProductsArray, productsArray){
+        let htmlContentToAppend =""
+        for( let i=0; i <RelatedProductsArray.length; i++){
+            let relatedProduct = RelatedProductsArray[i]
+            let relatedProduct2 = productsArray[relatedProduct]
+
+            htmlContentToAppend += `
+            <div class="col-sm-6 text-center">
+              <div class="card h-100 w-75 align-midle d-inline-block"  >
+                <div class="card-body text-center">
+                <p>
+                <a href="#">
+                <img src="./img/prod${relatedProduct}.jpg" class="img-thumbnail" width="200" height="200" alt="...">
+                </a>
+                 </p>
+                  <h5 class="card-title">${relatedProduct2.name}</h5>
+                  <p class="card-text">${relatedProduct2.description}</p>
+                </div>
+              </div>
+            </div>
+            
+            `
+            document.getElementById("relatedProductsContainer").innerHTML = htmlContentToAppend;
+        }
+    }
+
+
+
     document.getElementById("commentSend").addEventListener("click", function (e) {
         e.preventDefault();
         var comment = {}
@@ -103,5 +142,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         showComments(comments)
         document.getElementById("commentText").value = ""
     });
+    
 
 });
