@@ -1,6 +1,10 @@
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
+var subtotal = 0
+var unidades = 0
+var valorProducto = 0
+var porcentaje = 0;
 document.addEventListener("DOMContentLoaded", function (e) {
 
     getJSONData(CART_PRODUCTS).then(function (resultObj) {
@@ -12,10 +16,25 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
     });
 
-    var subtotal = 0
-    var unidades = 0
-    var valorProducto = 0
-    var porcentaje = 0;
+
+
+    document.getElementById("envioExpress").onclick = function (e) {
+        porcentaje = 7
+        calcularCostoDeEnvio(porcentaje, true)
+        document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Express (5-8 días)"
+    }
+    document.getElementById("envioPremium").onclick = function (e) {
+        porcentaje = 15
+        calcularCostoDeEnvio(porcentaje, true)
+        document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Premium  (2-5 días)"
+    }
+    document.getElementById("envioStandard", true).onclick = function (e) {
+        porcentaje = 5
+        calcularCostoDeEnvio(porcentaje)
+        document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Standard (12 a 15 días)"
+    }
+
+
 
     function armarsubtotal(unidades, idsubtotal, cartProduct) {
         console.log(cartProduct)
@@ -29,37 +48,25 @@ document.addEventListener("DOMContentLoaded", function (e) {
         document.getElementById(idsubtotal).innerHTML = subtotal
         console.log(subtotal)
     }
-    function calcularCostoDeEnvio(porcentaje) {
-        document.getElementById("totalContainer").innerHTML =`
-        <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p>  
-        <p>Total: $<span id="total"></span></p>`
-        let total = document.getElementsByClassName("subtotal");
-        let total2 = 0;
-        for (let i = 0; i < total.length; i++) {
-            const element = total[i];
-            total2 += parseInt(element.textContent, 10)
+    
+    function calcularCostoDeEnvio(porcentaje, showTotal) {
+        if (showTotal){document.getElementById("totalContainer").innerHTML = `
+        <p>Subtotal: $<span id="subtotalFinal"></span></p> 
+        <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p> 
+        <p style="color:red">Total: $<span id="total"></span></p>`}
+        let totalProductos = document.getElementsByClassName("subtotal");
+        let subtotalFinal = 0;
+        for (let i = 0; i < totalProductos.length; i++) {
+            const element = totalProductos[i];
+            subtotalFinal += parseInt(element.textContent, 10);
         }
-        let totalEnvio = (total2 * porcentaje) / 100
-        document.getElementById("total").innerHTML = total2 + totalEnvio;
+        let totalEnvio = (subtotalFinal * porcentaje) / 100
+        document.getElementById("total").innerHTML = subtotalFinal + totalEnvio;
         document.getElementById("costoEnvio").innerHTML = totalEnvio;
-        document.getElementById("porcentaje").innerHTML = porcentaje
+        document.getElementById("porcentaje").innerHTML = porcentaje;
+        document.getElementById("subtotalFinal").innerHTML = subtotalFinal;
     }
 
-    document.getElementById("envioMvd").onclick = function (e) {
-        porcentaje = 3.5
-        calcularCostoDeEnvio(porcentaje)
-        document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio dentro de Montevido"
-    }
-    document.getElementById("envioInterior").onclick = function (e) {
-        porcentaje = 5.5
-        calcularCostoDeEnvio(porcentaje)
-        document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio al interior"
-    }
-    document.getElementById("retiroLocal").onclick = function (e) {
-        porcentaje = 0
-        calcularCostoDeEnvio(porcentaje)
-        document.getElementById("buttonTitle").innerHTML = "Has seleccionado retiro en el local"
-    }
 
     function showCartProducts(array) {
         let htmlContentToAppend = "";
@@ -80,14 +87,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
                         </div>
                     </div>
                     <div class="col">
-                        <p>Costo unitario: `+ product.currency + "   " + product.unitCost + ` </p>
+                        <p>Costo unitario: `+ product.currency + "   " + product.unitCost + ` </p>   
                          <label for="quantity">Cantidad:</label>
                          <input type="number" value="${product.count}" class="quantity"  min="1" max="5">
                     </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-4">
-                    <p class="text-right" style="color:red">Subtotal: $  <span class="subtotal" id="subtotal`+ i + `"></span></p> 
+                    <p class="text-right" style="color:#ff9e8f">Subtotal del producto: $  <span class="subtotal" id="subtotal`+ i + `"></span></p> 
                     </div>
                     
                 </div>
@@ -110,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             const element = cantidades[i];
             element.onchange = function (e) {
                 armarsubtotal(e.target.value, "subtotal" + i, product)
-                calcularCostoDeEnvio(porcentaje)
+                calcularCostoDeEnvio(porcentaje, false)
             }
         }
 
