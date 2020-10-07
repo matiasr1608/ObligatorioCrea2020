@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (showTotal){document.getElementById("totalContainer").innerHTML = `
         <p>Subtotal: $<span id="subtotalFinal"></span></p> 
         <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p> 
+        <hr>
         <p style="color:red">Total: $<span id="total"></span></p>`}
         let totalProductos = document.getElementsByClassName("subtotal");
         let subtotalFinal = 0;
