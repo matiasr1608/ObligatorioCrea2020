@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 
     function armarsubtotal(unidades, idsubtotal, cartProduct) {
-        console.log(cartProduct)
         valorProducto = cartProduct.unitCost
         if (cartProduct.currency == "USD") {
             subtotal = unidades * valorProducto * 44
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
 
         document.getElementById(idsubtotal).innerHTML = subtotal
-        console.log(subtotal)
     }
     
     function calcularCostoDeEnvio(porcentaje, showTotal) {
@@ -112,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
 
         let cantidades = document.getElementsByClassName("quantity");
-        console.log(cantidades)
         for (let i = 0; i < cantidades.length; i++) {
             let product = array[i];
             const element = cantidades[i];
