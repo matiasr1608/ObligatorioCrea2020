@@ -5,6 +5,7 @@ var subtotal = 0
 var unidades = 0
 var valorProducto = 0
 var porcentaje = 0;
+var subtotalEnPantalla= false
 document.addEventListener("DOMContentLoaded", function (e) {
 
     getJSONData(CART_PRODUCTS).then(function (resultObj) {
@@ -19,16 +20,21 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 
     document.getElementById("envioExpress").onclick = function (e) {
+        subtotalEnPantalla = true;
         porcentaje = 7
-        calcularCostoDeEnvio(porcentaje, true)
+        calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Express (5-8 días)"
     }
     document.getElementById("envioPremium").onclick = function (e) {
         porcentaje = 15
-        calcularCostoDeEnvio(porcentaje, true)
+        subtotalEnPantalla = true;
+
+        calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Premium  (2-5 días)"
     }
-    document.getElementById("envioStandard", true).onclick = function (e) {
+    document.getElementById("envioStandard").onclick = function (e) {
+        subtotalEnPantalla = true;
+
         porcentaje = 5
         calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Standard (12 a 15 días)"
@@ -47,12 +53,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
         document.getElementById(idsubtotal).innerHTML = subtotal
     }
     
-    function calcularCostoDeEnvio(porcentaje, showTotal) {
-        if (showTotal){document.getElementById("totalContainer").innerHTML = `
-        <p>Subtotal: $<span id="subtotalFinal"></span></p> 
-        <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p> 
-        <hr>
-        <p style="color:red">Total: $<span id="total"></span></p>`}
+    function calcularCostoDeEnvio(porcentaje) {
+        
+
         let totalProductos = document.getElementsByClassName("subtotal");
         let subtotalFinal = 0;
         for (let i = 0; i < totalProductos.length; i++) {
@@ -60,10 +63,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
             subtotalFinal += parseInt(element.textContent, 10);
         }
         let totalEnvio = (subtotalFinal * porcentaje) / 100
+        if (subtotalEnPantalla){document.getElementById("totalContainer").innerHTML = `
+        <p>Subtotal: $<span id="subtotalFinal"></span></p> 
+        <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p> 
+        <hr>
+        <p style="color:red">Total: $<span id="total"></span></p>`
         document.getElementById("total").innerHTML = subtotalFinal + totalEnvio;
         document.getElementById("costoEnvio").innerHTML = totalEnvio;
         document.getElementById("porcentaje").innerHTML = porcentaje;
         document.getElementById("subtotalFinal").innerHTML = subtotalFinal;
+        }
     }
 
 
@@ -115,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             const element = cantidades[i];
             element.onchange = function (e) {
                 armarsubtotal(e.target.value, "subtotal" + i, product)
-                calcularCostoDeEnvio(porcentaje, false)
+                calcularCostoDeEnvio(porcentaje)
             }
         }
 
