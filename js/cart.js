@@ -5,7 +5,8 @@ var subtotal = 0
 var unidades = 0
 var valorProducto = 0
 var porcentaje = 0;
-var subtotalEnPantalla= false
+var subtotalEnPantalla = false
+var cartProductsArray = [];
 document.addEventListener("DOMContentLoaded", function (e) {
 
     getJSONData(CART_PRODUCTS).then(function (resultObj) {
@@ -16,6 +17,37 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
 
     });
+
+    const boton = document.getElementById("nextButton")
+    const submitBut = document.getElementById("submitButton")
+    const closebut = document.getElementById("closeButton");
+
+    boton.onclick = function (e) {
+        document.getElementById("FirstPageModal").style.display = "none";
+        boton.style.display = "none"
+        if (document.getElementById("radioCard").checked) {
+            document.getElementById("cardPayment").style.display = "block";
+            submitBut.setAttribute("form", "form2")
+            submitBut.style.display = "block"
+        }
+        if (document.getElementById("radioBank").checked) {
+            document.getElementById("bankPayment").style.display = "block";
+            closebut.style.display = "block"
+        }
+    }
+
+
+    function deletemodalcontent() {
+        document.getElementById("cardPayment").style.display = "none";
+        document.getElementById("bankPayment").style.display = "none";
+        document.getElementById("FirstPageModal").style.display = "block";
+        boton.style.display = "block";
+        submitBut.style.display = "none";
+        closebut.style.display = "none";
+        }
+    $('#modalID').on('hidden.bs.modal', function (e) {
+        deletemodalcontent()
+    })
 
 
 
@@ -28,13 +60,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
     document.getElementById("envioPremium").onclick = function (e) {
         porcentaje = 15
         subtotalEnPantalla = true;
-
         calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Premium  (2-5 días)"
     }
     document.getElementById("envioStandard").onclick = function (e) {
         subtotalEnPantalla = true;
-
         porcentaje = 5
         calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Standard (12 a 15 días)"
@@ -52,10 +82,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         document.getElementById(idsubtotal).innerHTML = subtotal
     }
-    
-    function calcularCostoDeEnvio(porcentaje) {
-        
 
+    function calcularCostoDeEnvio(porcentaje) {
         let totalProductos = document.getElementsByClassName("subtotal");
         let subtotalFinal = 0;
         for (let i = 0; i < totalProductos.length; i++) {
@@ -63,26 +91,27 @@ document.addEventListener("DOMContentLoaded", function (e) {
             subtotalFinal += parseInt(element.textContent, 10);
         }
         let totalEnvio = (subtotalFinal * porcentaje) / 100
-        if (subtotalEnPantalla){document.getElementById("totalContainer").innerHTML = `
-        <p>Subtotal: $<span id="subtotalFinal"></span></p> 
-        <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p> 
-        <hr>
-        <p style="color:red">Total: $<span id="total"></span></p>`
-        document.getElementById("total").innerHTML = subtotalFinal + totalEnvio;
-        document.getElementById("costoEnvio").innerHTML = totalEnvio;
-        document.getElementById("porcentaje").innerHTML = porcentaje;
-        document.getElementById("subtotalFinal").innerHTML = subtotalFinal;
+        if (subtotalEnPantalla) {
+            document.getElementById("totalContainer").style.display = "block";
+            document.getElementById("total").innerHTML = subtotalFinal + totalEnvio;
+            document.getElementById("costoEnvio").innerHTML = totalEnvio;
+            document.getElementById("porcentaje").innerHTML = porcentaje;
+            document.getElementById("subtotalFinal").innerHTML = subtotalFinal;
         }
     }
 
 
     function showCartProducts(array) {
         let htmlContentToAppend = "";
-        for (let i = 0; i < array.length; i++) {
-            let product = array[i];
-            // valorProducto = product.unitCost
-            // unidades = product.count
-            htmlContentToAppend += `
+        if (array.length == 0) {
+            document.getElementById("cartProducts").innerHTML = "No hay productos en el carrito";
+            document.getElementById("dropdownMenuButtonShipping").style.display = "none"
+            document.getElementById("totalContainer").style.display = "none";
+
+        } else {
+            for (let i = 0; i < array.length; i++) {
+                let product = array[i];
+                htmlContentToAppend += `
             <a  class="list-group-item list-group-item-action" height="150">
                 <div class="row">
                     <div class="col-3">
@@ -99,6 +128,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
                          <label for="quantity">Cantidad:</label>
                          <input type="number" value="${product.count}" class="quantity"  min="1" max="5">
                     </div>
+                    <div class="col-auto">
+                    <button name="borrar" id="${i}" type="button" class="close" d aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>  
+                      </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-4">
@@ -108,11 +142,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 </div>
             </a>
             `
-
             document.getElementById("cartProducts").innerHTML = htmlContentToAppend;
-
-
+            }
         }
+
         for (let i = 0; i < array.length; i++) {
             let product = array[i];
             armarsubtotal(product.count, "subtotal" + i, product);
@@ -127,11 +160,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 calcularCostoDeEnvio(porcentaje)
             }
         }
-
-
+        let buttonserase = document.getElementsByName("borrar")
+        for (let i = 0; i < buttonserase.length; i++) {
+            const boton = buttonserase[i];
+            boton.onclick = function (e) {
+                cartProductsArray.splice(boton.id, 1)
+                showCartProducts(cartProductsArray)
+            }
+        }
     }
-
 }
 );
 
-// {/* <small class="text-muted">` +product.count + ` unidades</small> */}

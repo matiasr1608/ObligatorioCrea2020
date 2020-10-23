@@ -40,7 +40,7 @@
       <a class="btn btn-secondary" href="categories.html">Categorías</a>
       <a class="btn btn-secondary" href="products.html">Productos</a>
       <a class="btn btn-secondary" href="sell.html">Vender</a>
-        
+
 
       <div class="dropdown">
         <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -48,9 +48,9 @@
           <span id="username" style="color:white"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            
-          <a  style=" color:grey" class="dropdown-item font-weight-bold" href=" cart.html">Mi Carrito</a>
-          <a  style=" color:grey" class="dropdown-item font-weight-bold" href="my-profile.html">Mi Perfil</a>
+
+          <a style=" color:grey" class="dropdown-item font-weight-bold" href=" cart.html">Mi Carrito</a>
+          <a style=" color:grey" class="dropdown-item font-weight-bold" href="my-profile.html">Mi Perfil</a>
           <a id="logout" style="color:red" class="dropdown-item" href="#">Cerrar sesión</a>
         </div>
       </div>
@@ -58,15 +58,15 @@
     </div>
   </nav>
   <main role="main" class="pb-5">
-  <div class="container p-5">
-    <div>
-      <div class="row">
-        <div class="col">
-          <h2 id="hola">Carrito</h2>
-        </div>
-        <div class="col-end">
-          <p>Precio de cambio 1 USD: $44</p>
-        </div>
+    <div class="container p-5">
+      <div>
+        <div class="row">
+          <div class="col">
+            <h2 id="hola">Carrito</h2>
+          </div>
+          <div class="col-end">
+            <p>Precio de cambio 1 USD: $44</p>
+          </div>
         </div>
       </div>
       <br>
@@ -76,32 +76,156 @@
       <div class="row justify-content-between">
         <div class="col-4">
           <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButtonShipping" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
               <span id="buttonTitle"></span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" id="envioPremium">Premium  (2-5 días)</a>
+              <a class="dropdown-item" id="envioPremium">Premium (2-5 días)</a>
               <a class="dropdown-item" id="envioExpress">Express (5-8 días)</a>
               <a class="dropdown-item" id="envioStandard">Standard (12 a 15 días)</a>
 
             </div>
           </div>
         </div>
-        <div id="totalContainer" class="col-4">
-      
+        <div id="totalContainer" class="col-4" style="display: none;">
+          <p>Subtotal: $<span id="subtotalFinal"></span></p>
+          <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p>
+          <hr>
+          <p style="color:red">Total: $<span id="total"></span></p>
+          <div class="text-center" id="boton"> <button type="button" data-target="#modalID" class="btn btn-light"
+              data-toggle="modal">Continuar con el pago</button></div>
         </div>
+
+
       </div>
     </div>
-  </div>
-  <div id="spinner-wrapper">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
     </div>
-  </div>
-</main>
+    <div id="spinner-wrapper">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="cartel" id="hola">
+      <!-- primer cartel -->
+      <div class="modal fade" id="modalID" tabindex="-1" aria-labelledby="modalPaymentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Continuacion del pago</h5>
+              <button name="cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="FirstPageModal" style="display: block;">
+                <p class="modal-title" id="exampleModalLabel">Elija la opción de pago</p>
+                <hr>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="radioPayment" id="radioCard" value="option1"
+                    checked>
+                  <label class="form-check-label" for="radioCard">
+                    Pago con tarjetas de crédito/débito
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="radioPayment" id="radioBank" value="option2">
+                  <label class="form-check-label" for="radioBank">
+                    Cuenta bancaria
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-body" style="display: block;">
+                <div class="needsValidation" id="cardPayment" style="display: none;">
+                  <p>Ingrese los datos de la tarjeta:</p>
+                  <form id="form2">
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault01">Nombre</label>
+                        <input type="text" class="form-control" id="validationDefault01" required>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault02">Apellido</label>
+                        <input type="text" class="form-control" id="validationDefault02" required>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault03">Numero tarjeta</label>
+                        <input class="form-control" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}"
+                          maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required>
+                      </div>
+
+                      <div class="col-md-3 mb-3">
+                        <label for="validationDefault05">CCV</label>
+                        <input type="numeric" class="form-control" id="validationDefault05" maxlength="4"
+                          placeholder="XXX" pattern="[[0-9\s]{3,4}" required>
+                      </div>
+
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-3 mb-3" id="vencimiento" data-date-format="mm-yyyy">
+                        <label for="validationDefault05">Vencimiento</label>
+                        <input type="month" class="form-control" id="validationDefault051" required>
+                      </div>
+                    </div>
+                    <!-- <button class="btn btn-primary" type="submit" id="submit" >Submit form</button> -->
+                  </form>
+                </div>
+                <div id="bankPayment" style="display: none;">
+                  <p>Los datos para el depósito son los siguientes:</p>
+                  <hr>
+                  <p><strong>Nombre:</strong> Matías Rolando</p>
+                  <p><strong>Banco:</strong> ITAU</p>
+                  <p><strong>Número de cuenta:</strong> 123456</p>
+                  
+                  <!-- <form id="form3">
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault06">Nombre</label>
+                        <input type="text" class="form-control" id="validationDefault06" required>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault07">Apellido</label>
+                        <input type="text" class="form-control" id="validationDefault07" required>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault07">Ingrese nombre del Banco</label>
+                        <input type="text" class="form-control" id="validationDefault08" required>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationDefault07">Ingrese número de cuenta</label>
+                        <input type="number" class="form-control" id="validationDefault09" required>
+                      </div>
+                    </div>
+                  </form> -->
+                </div>
+              </div>
+
+            </div>
+            <div id="modalFooter" class="modal-footer">
+              <button id="nextButton" type="button" class="btn btn-primary" data-toggle="modal"> <span
+                  id="modalButton">Siguiente</span></button>
+              <button id="submitButton" class="btn btn-primary" type="submit" form="form2"
+                style="display: none;">Enviar</button>
+                <button id="closeButton" type="button" class="btn btn-secondary" data-dismiss="modal" style="display: none;">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
   <footer class="text-muted bg-light">
     <div class="container">
       <p class="float-right">
@@ -113,6 +237,7 @@
   </footer>
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
+
   <script src="js/dropzone.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
