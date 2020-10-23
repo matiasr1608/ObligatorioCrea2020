@@ -149,6 +149,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
         for (let i = 0; i < array.length; i++) {
             let product = array[i];
             armarsubtotal(product.count, "subtotal" + i, product);
+            calcularCostoDeEnvio(porcentaje)
+
         }
 
         let cantidades = document.getElementsByClassName("quantity");
@@ -156,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
             let product = array[i];
             const element = cantidades[i];
             element.onchange = function (e) {
+                product.count=e.target.value
+                
                 armarsubtotal(e.target.value, "subtotal" + i, product)
                 calcularCostoDeEnvio(porcentaje)
             }
