@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
     boton.onclick = function (e) {
         document.getElementById("FirstPageModal").style.display = "none";
+
         boton.style.display = "none"
         if (document.getElementById("radioCard").checked) {
             document.getElementById("cardPayment").style.display = "block";
@@ -56,17 +57,22 @@ document.addEventListener("DOMContentLoaded", function (e) {
         porcentaje = 7
         calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Express (5-8 días)"
+        document.getElementById("formEnvio").style.display = "block";
+
     }
     document.getElementById("envioPremium").onclick = function (e) {
         porcentaje = 15
         subtotalEnPantalla = true;
         calcularCostoDeEnvio(porcentaje)
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Premium  (2-5 días)"
+        document.getElementById("formEnvio").style.display = "block";
+
     }
     document.getElementById("envioStandard").onclick = function (e) {
         subtotalEnPantalla = true;
         porcentaje = 5
         calcularCostoDeEnvio(porcentaje)
+        document.getElementById("formEnvio").style.display = "block";
         document.getElementById("buttonTitle").innerHTML = "Has seleccionado envio Standard (12 a 15 días)"
     }
 
@@ -82,9 +88,28 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         document.getElementById(idsubtotal).innerHTML = subtotal
     }
+    document.getElementById("continuar").onclick = function(e){
+        e.preventDefault()
+        if (document.getElementById("form3").checkValidity() === true){
+            document.getElementById("totalContainer").style.display = "block"; 
+            document.getElementById("continuar").style.display="none"
+        }else{
+          var  alertContenido = document.getElementById("alert")
+           alertContenido.innerHTML =`<div class="alert alert-danger" role="alert">
+         ¡Debe rellenar todos los campos!
+          </div>`
+          
+            setTimeout(function () {
+                alertContenido.innerHTML=""
+            }, 5000);
+
+        }
+        // return false
+    }
 
     function calcularCostoDeEnvio(porcentaje) {
         let totalProductos = document.getElementsByClassName("subtotal");
+
         let subtotalFinal = 0;
         for (let i = 0; i < totalProductos.length; i++) {
             const element = totalProductos[i];
@@ -92,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
         let totalEnvio = (subtotalFinal * porcentaje) / 100
         if (subtotalEnPantalla) {
-            document.getElementById("totalContainer").style.display = "block";
+            // document.getElementById("totalContainer").style.display = "block";
             document.getElementById("total").innerHTML = subtotalFinal + totalEnvio;
             document.getElementById("costoEnvio").innerHTML = totalEnvio;
             document.getElementById("porcentaje").innerHTML = porcentaje;

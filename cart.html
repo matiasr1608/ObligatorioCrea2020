@@ -74,7 +74,7 @@
       </div>
       <br>
       <div class="row justify-content-between">
-        <div class="col-4">
+        <div class="col-6">
           <div class="dropdown">
             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButtonShipping" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -84,20 +84,40 @@
               <a class="dropdown-item" id="envioPremium">Premium (2-5 días)</a>
               <a class="dropdown-item" id="envioExpress">Express (5-8 días)</a>
               <a class="dropdown-item" id="envioStandard">Standard (12 a 15 días)</a>
-
             </div>
+          </div >
+          <div style="display: none;" id="formEnvio">
+            <hr>
+            <form id="form3" >
+              <div class="form-group">
+                <label for="exampleInputEmail1">Dirección</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                <small id="emailHelp" class="form-text text-muted">Introduza calle, número y esquina.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Ciudad</label>
+                <input type="text" class="form-control" id="exampleInputPassword2" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">País</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" required>
+              </div>
+              
+            </form>
+            <div id="alert"></div>
+            <button  class="btn btn-primary" id="continuar">Continuar</button>
+
           </div>
+          
         </div>
         <div id="totalContainer" class="col-4" style="display: none;">
           <p>Subtotal: $<span id="subtotalFinal"></span></p>
           <p>Costo de envío ( <span id="porcentaje"></span>%): $<span id="costoEnvio"></span></p>
           <hr>
           <p style="color:red">Total: $<span id="total"></span></p>
-          <div class="text-center" id="boton"> <button type="button" data-target="#modalID" class="btn btn-light"
+          <div class="text-center" id="boton"> <button type="button" form="form3" data-target="#modalID" class="btn btn-light"
               data-toggle="modal">Continuar con el pago</button></div>
         </div>
-
-
       </div>
     </div>
     </div>
