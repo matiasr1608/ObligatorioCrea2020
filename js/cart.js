@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
         document.getElementById("cardPayment").style.display = "none";
         document.getElementById("bankPayment").style.display = "none";
         document.getElementById("FirstPageModal").style.display = "block";
+        document.getElementById("formEnvio").style.display = "none";
+
         boton.style.display = "block";
         submitBut.style.display = "none";
         closebut.style.display = "none";
