@@ -40,27 +40,55 @@
       <a class="btn btn-secondary" href="categories.html">Categorías</a>
       <a class="btn btn-secondary" href="products.html">Productos</a>
       <a class="btn btn-secondary" href="sell.html">Vender</a>
-        
+
       <div class="dropdown">
-          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span id="username" style="color:white" ></span>
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a  style=" color:grey" class="dropdown-item font-weight-bold" href=" cart.html">Mi Carrito</a>
-          <a  style=" color:grey" class="dropdown-item font-weight-bold" href="my-profile.html">Mi Perfil</a>
-            <a id="logout" style= "color:red"  class="dropdown-item" href="#">Cerrar sesión</a>
-          </div>
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <span id="username" style="color:white"></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a style=" color:grey" class="dropdown-item font-weight-bold" href=" cart.html">Mi Carrito</a>
+          <a style=" color:grey" class="dropdown-item font-weight-bold" href="my-profile.html">Mi Perfil</a>
+          <a id="logout" style="color:red" class="dropdown-item" href="#">Cerrar sesión</a>
         </div>
+      </div>
     </div>
   </nav>
-  <div class="container p-5">
-    <div class="alert alert-danger" role="alert" style="position: relative; width:auto; top: 0;">
-      <h4 class="alert-heading">¡A trabajar! :)</h4>
-      <p>Esta sección corresponde a: Entrega 7 (Fecha de entrega: 8/11/202020) -> Punto 1 y 2.</p>
-      <hr>
-      <p class="mb-0">Para saber qué debes hacer, fijate en la actividad en CREA correspondiente a esta entrega.</p>
+  <main role="main" class="pb-5">
+    <div class="text-center p-4">
+      <h2>Perfil</h2>
+      <p class="lead">Puedes editar tus datos</p>
     </div>
-  </div>
+    <div id="alertProfile"></div>
+    <div  class= "row justify-content-md-center">
+      <form id="profileForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputNombre">Nombre</label>
+            <input type="text4" name="profileInputs" class="form-control" id="inputNombre" placeholder="Ingrese su Nombre" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputApellido">Apellido</label>
+            <input type="text" name="profileInputs" class="form-control" id="inputApellido" placeholder="Ingrese su Apellido" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail">Email</label>
+          <input type="email" name="profileInputs" class="form-control" id="inputEmail" placeholder="123@123.com" required>
+        </div>
+        <div class="form-group">
+          <label for="inputTelefono">Teléfono de contacto</label>
+          <input type="number" name="profileInputs" class="form-control" id="inputTelefono" placeholder="Ingrese su número de teléfono" required>
+        </div>
+        <button id="saveButton" type="button" class="btn btn-primary"  display>Guardar</button>
+
+      </form>
+
+
+
+
+    </div>
+  </main>
   <footer class="text-muted bg-light">
     <div class="container">
       <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>

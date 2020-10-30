@@ -51,10 +51,16 @@ document.addEventListener("DOMContentLoaded", function(e){
   const email = localStorage.getItem("email")
   const username = document.getElementById("username");
   const logout = document.getElementById("logout");
+  const savedprofile = JSON.parse(localStorage.getItem("profile"))
+
   if (email === null){
     window.location.href = "./login.html"
   }
+  if (savedprofile != null){
+    username.innerText = savedprofile.name
+  }else{
   username.innerText = email
+}
   
   logout.onclick = function() {
     localStorage.removeItem("email");
