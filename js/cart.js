@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         document.getElementById("cardPayment").style.display = "none";
         document.getElementById("bankPayment").style.display = "none";
         document.getElementById("FirstPageModal").style.display = "block";
-        document.getElementById("formEnvio").style.display = "none";
 
         boton.style.display = "block";
         submitBut.style.display = "none";
@@ -134,6 +133,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
             document.getElementById("cartProducts").innerHTML = "No hay productos en el carrito";
             document.getElementById("dropdownMenuButtonShipping").style.display = "none"
             document.getElementById("totalContainer").style.display = "none";
+            document.getElementById("formEnvio").style.display = "none";
+
 
         } else {
             for (let i = 0; i < array.length; i++) {
