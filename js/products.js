@@ -191,16 +191,20 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (arraySearch.length === 0) {
             arraySearch = currentProductsArray
             showProductsList(arraySearch)
-            alert("No hay productos que coincidan con la búsqueda")
+            searchBar.classList.add('is-invalid');
+
         } else {
             showProductsList(arraySearch)
+            searchBar.classList.remove('is-invalid');
+
         }
     });
-    searchBar.addEventListener('search', (event) => {
-        arraySearch = currentProductsArray;
-        eraseRange();
-        showProductsList(arraySearch);
-    });
+
+    // searchBar.addEventListener('search', (event) => {
+    //     arraySearch = currentProductsArray;
+    //     eraseRange();
+    //     showProductsList(arraySearch);
+    // });
 
 
 
