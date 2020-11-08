@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         mostrardatos(savedprofile);
     } else {
         email.value = localStorage.getItem("email");
-        profileImage.setAttribute("src", "/img/person_1.png");     
+        profileImage.setAttribute("src", "img/person_1.png");     
     }
 
    
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         email.value = datos.email;
         phone.value = datos.phone;
         if(savedprofile.photo ==""){
-            profileImage.setAttribute("src", "/img/person_1.png");
+            profileImage.setAttribute("src", "img/person_1.png");
         }else{
             profileImage.setAttribute("src", datos.photo);
         }
